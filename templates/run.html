@@ -1,0 +1,97 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+    <span class="fs-1 _fw-light">Run Lang3 code in your browser</span>
+    <form action="/run" method="post" target="_self" enctype="multipart/form-data">
+        <div class="mb-2 rounded focus-ring">
+            <label for="editor" class="form-label fw-medium mt-2 mb-1">Write Lang3 Code</label>
+            <button type="button" class="d-inline btn btn-sm btn-outline-danger float-end mb-1" id="editorClear" title="Clear editor"><i class="bi bi-trash3"></i></button>
+            <div class="rounded" id="editor">{{input}}</div>
+            <textarea class="form-control d-none" id="hiddenEditor" name="code">{{input}}</textarea>
+        </div>
+        <p class="mb-0 fw-light">or...</p>
+        <div class="row mb-3">
+            <div class="col-12 col-sm-10 col-md-8 col-xl-6 col-xxl-5">
+                <label for="codeFile" class="form-label fw-medium mt-2 mb-1">Upload a <span class="ff-mono fw-light">.l3</span> or <span class="ff-mono fw-light">.lang3</span> file</label>
+                <input class="form-control" type="file" accept=".l3,.lang3" id="codeFile" name="file">
+            </div>
+          </div>
+        <button type="submit" class="btn btn-primary mb-2">Run</button>
+    </form>
+    <label for="output" class="form-label">Output</label>
+    <div class="placeholder-glow">
+        <div class="card card-body {% if outputJobId %}placeholder w-100 bg-light text-primary-emphasis{% endif %}" id="output">{% if output %}<div class="ff-mono">{{ output }}</div>{% else %}Output will appear here{% endif %}</div>
+    </div>
+        
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        interval = {
+            id: -1
+        }
+
+        function clearPlaceholder(elm, intervalId, err = false, showDefaultError = true) {
+            clearInterval(intervalId);
+            elm.classList.remove("placeholder")
+            elm.classList.remove("text-primary-emphasis")
+            elm.classList.remove("bg-light")
+            elm.classList.add("bg-dark")
+            if (err) {
+                elm.classList.add("text-danger")
+                if (showDefaultError) {
+                    elm.innerHTML = '{{errStr|safe}}';
+                }
+            } else {
+                elm.classList.add("ff-mono")
+            }
+        }
+        const editorClear = document.getElementById('editorClear');
+        const editorElm = document.getElementById('editor');
+        const hiddenEditorElm = document.getElementById('hiddenEditor');
+        const outputElm = document.getElementById('output');
+
+        async function codeResponse(elm, interval) {
+            response = await fetch('/run/getJob{{outputJobId}}').then((response) => {
+                response.json().then((json) => {
+                    if (json.eCode >= 0) {
+                        clearPlaceholder(elm, interval.id, json.eCode != 0, false)
+                    }
+                    elm.innerHTML = json.body;
+                }).catch((e) => {
+                    clearPlaceholder(elm, interval.id, true);
+                });
+            }).catch((e) => {
+                clearPlaceholder(interval.id, true);
+            });
+        }
+
+        editorClear.addEventListener('click', () => {
+            document.getElementById('editor').value = "";
+        });
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/l3t");
+        editor.session.setMode("ace/mode/lang3");
+        editor.session.on('change', () => {
+            hiddenEditorElm.value = editor.getValue();
+        });
+
+        window.addEventListener('beforeunload', (e) => {
+            if (editor.getValue().length > 0 || hiddenEditorElm.value.length > 0) {
+                e.preventDefault();
+                e.returnValue = '';
+            }
+        });
+
+        if ("{{outputJobId}}") {
+            // check for result every 1s
+            interval.id = setInterval(codeResponse, 1000, outputElm, interval);
+
+            // for the first 2s, check every 0.25s to get a noticably faster response
+            setTimeout(codeResponse, 250, outputElm, interval);
+            setTimeout(codeResponse, 750, outputElm, interval);
+            setTimeout(codeResponse, 1250, outputElm, interval);
+            setTimeout(codeResponse, 1750, outputElm, interval);
+        }
+    </script>
+{% endblock %}

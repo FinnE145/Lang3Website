@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Download Lang3</title>
+        <link rel="icon" href="{{url_for('static', filename='Lang3LogoSquare.ico')}}" type="image/x-icon"/>
+        <link href="{{url_for('static', filename='styles.css')}}" rel="stylesheet"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ace-builds@1.34.2/css/ace.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&family=Manrope:wght@200..800&family=Nunito+Sans:ital,opsz,wdth,wght@0,6..12,87.5,200..1000;1,6..12,87.5,200..1000&family=REM:ital,wght@0,100..900;1,100..900&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro:ital,wght@0,400;0,700;1,400;1,700&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Major+Mono+Display&family=Nanum+Gothic+Coding&family=Red+Hat+Mono:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    </head>
+
+    {% set mainUrlList = url_for(request.endpoint, **request.view_args).split('?')[0].split('#')[0].split('/') %}
+    {% if mainUrlList|length > 1 %}
+        {% set currentPage = mainUrlList[1].lower() %}
+    {% else %}
+        {% set currentPage = '' %}
+    {% endif %}
+
+    {% set linkStyles = 'link-light link-underline link-underline-light link-offset-3 link-underline-opacity-50 link-underline-opacity-100-hover' %}
+
+    {% set navHeader %}
+        <div class="ms-2 d-flex flex-align-items-center">
+            <svg class="flex-shrink-1 mt-3 d-none" id="logo" version="1.1" viewBox="0.0 0.0 529.1338582677165 718.1102362204724" fill="none" stroke="none" stroke-linecap="square" stroke-miterlimit="10" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                <clipPath id="p.0"><path d="m0 0l529.13385 0l0 718.1102l-529.13385 0l0 -718.1102z" clip-rule="nonzero"/></clipPath>
+                <g clip-path="url(#p.0)"><path fill="#000000" fill-opacity="0.0" d="m0 0l529.13385 0l0 718.1102l-529.13385 0z" fill-rule="evenodd"/>
+                    <path fill="#ffffff" d="m321.68787 -1.501423E-5c-26.842468 0 -51.895416 3.9595625 -75.158875 11.878688c-23.17398 7.9191256 -43.350555 18.978592 -60.529724 33.178402c-17.179153 14.472885 -30.68985 31.676506 -40.53209 51.610855c-9.752747 19.93435 -14.629135 42.053276 -14.629135 66.356804l111.933014 0c0 -10.922928 2.1474 -20.75357 6.4421844 -29.491913c4.2947845 -8.738342 10.200119 -16.247864 17.716019 -22.52855c7.247467 -6.0076065 15.747559 -10.649857 25.500336 -13.926735c9.842224 -3.2768784 20.400238 -4.9153214 31.674072 -4.9153214c13.689667 0 25.67929 1.9115143 35.968872 5.734543c10.379089 3.823021 18.92395 9.147957 25.634552 15.974785c6.710602 7.099907 11.721191 15.519676 15.031769 25.259285c3.400055 9.64859 5.100067 20.343948 5.100067 32.086105c0 12.015228 -1.7000122 23.165726 -5.100067 33.451477c-3.3105774 10.194748 -8.321167 18.842056 -15.031769 25.941956c-7.247467 8.1922 -16.731781 14.563919 -28.453003 19.115143c-11.631714 4.460205 -25.500305 6.6902924 -41.605774 6.6902924l-60.798157 0l0 88.47574l60.798157 0c15.300171 0 29.034576 1.7749634 41.203156 5.3249207c12.258057 3.5499573 22.81607 9.011414 31.674072 16.3844c8.5896 7.372986 15.165985 16.794006 19.729218 28.263092c4.563202 11.469086 6.844818 25.259277 6.844818 41.370605c0 12.834442 -1.9684448 24.440063 -5.9053345 34.816833c-3.8474426 10.376801 -9.529083 19.115143 -17.044952 26.215057c-7.7843323 7.919098 -17.447601 13.926727 -28.989868 18.022797c-11.542236 4.0961304 -24.560822 6.144165 -39.055756 6.144165c-12.884369 0 -24.695038 -1.9570312 -35.432037 -5.8710938c-10.736969 -4.005066 -19.99762 -9.557526 -27.781921 -16.65744c-8.052734 -6.8268433 -14.226501 -15.064575 -18.521286 -24.713135c-4.2948 -9.739624 -6.4421997 -20.343964 -6.4421997 -31.81305l-111.93301 0c0 28.94577 5.547447 54.068512 16.642326 75.368256c11.184357 21.299683 26.03717 38.912903 44.558456 52.83966c18.521286 14.199829 39.637344 24.804138 63.348175 31.81305c23.800293 6.9178467 48.18219 10.37677 73.14569 10.37677c28.989838 0 56.01123 -3.8685303 81.06418 -11.605591c25.142426 -7.828125 46.840088 -19.251709 65.09296 -34.27069c18.252838 -14.745972 32.613556 -33.04187 43.082123 -54.887756c10.468567 -21.845856 15.70282 -46.695526 15.70282 -74.54901c0 -15.838257 -1.8789673 -30.85727 -5.636902 -45.0571c-3.7579346 -14.199799 -9.529083 -27.307312 -17.313385 -39.32254c-7.7843018 -11.742157 -17.671265 -22.255463 -29.66092 -31.539978c-11.9001465 -9.284485 -26.03717 -16.930542 -42.41107 -22.93814c13.958099 -6.8268433 26.305603 -14.928009 37.042603 -24.303528c10.736969 -9.466522 19.729187 -19.797806 26.976654 -30.99382c7.247467 -11.195999 12.750153 -22.983643 16.508087 -35.362976c3.7579346 -12.470337 5.636902 -25.122742 5.636902 -37.9572c0 -27.85347 -4.786865 -52.339027 -14.360687 -73.45671c-9.484314 -21.208694 -22.81607 -39.049477 -39.99524 -53.52236c-17.179169 -14.19981 -37.84787 -24.895185 -62.006073 -32.08611c-24.158203 -7.2819595 -50.73221 -10.922932 -79.722046 -10.922932z" fill-rule="evenodd"/>
+                    <path fill="#ffffff" d="m0 -2.3622047E-6l134.23596 0l0 609.85474l394.8979 0l0 108.25549l-529.13385 0z" fill-rule="evenodd"/>
+                </g>
+            </svg>
+            <div class="fs-1 fw-xlight ff-custom ms-2 mt-1">Lang3</div>
+        </div>
+        <div class="d-none d-md-block px-2 mt-1">
+            <form role="search">
+                <div class="input-group d-flex">
+                    <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-secondary" type="submit" title="Search"><i class="bi bi-search"></i></button>
+                </div>
+              </form>
+        </div>
+    {% endset %}
+
+    {% set navItems %}
+        <ul class="navbar-nav nav flex-column p-0 ps-2 z-200">
+            <li class="nav-item p-2 pb-0">
+                <a class="{{linkStyles}}{% if currentPage == '' %} active{% endif %}" aria-current="page" href="/">Home</a>
+            </li>
+            <li class="nav-item p-2 pb-0">
+                <a class="{{linkStyles}}{% if currentPage == 'download' %} active{% endif %}" href="/download">Download</a>
+            </li>
+            <li class="nav-item p-2 pb-0">
+                <button class="p-0 btn btn-link icon-link icon-link-hover {{linkStyles}}{% if currentPage == 'docs' %} active{% endif %} docs-btn" href="/docs" role="button" data-bs-toggle="collapse" data-bs-target=".docs-dropdown" aria-expanded="false" type="button">
+                    Docs<i class="bi bi-caret-down-fill menu-icon"></i>
+                </button>
+                <div class="collapse docs-dropdown">
+                    <ul class="ps-2 me-2">
+                        {% for docPage in docsPages %}
+                            <li class="list-group-item p-2 pb-0">
+                                <a class="{{linkStyles}}" href="/docs/{{docPage[0]}}">{{docPage[1]}}</a>
+                            </li>
+                        {% endfor %}
+                        </ul>
+                </div>
+            </li>
+            <li class="nav-item p-2 pb-3">
+                <a class="{{linkStyles}}{% if currentPage == 'run' %} active{% endif %}" href="/run">Run</a>
+            </li>
+        </ul>
+    {% endset %}
+
+    <body class="p-0 mh-v" data-bs-theme="dark">
+        <div class="container-fluid overflow-x-hidden p-0 h-100 mh-v">
+            <div class="fixed-top progress-container">
+                <div class="bg-primary h-100" id="progress"></div>
+            </div>
+            <div class="position-absolute start-50 translate-middle-x mt-2 d-flex justify-content-center flashed-messages z-300 overflow-x-auto">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{category}} alert-dismissible fade show d-flex align-items-center py-2" role="alert">
+                                <i class="bi bi-exclamation-{% if category == 'danger' %}triangle{% else %}circle{% endif %}-fill me-2 fs-3"></i>{{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            </div>
+            <div class="row mh-v">
+                <div class="d-lg-none z-200">
+                    <div class="row menu-bg pb-2" id="hiddenMenuHeader">
+                        <div class="col">
+                            <div class="d-flex align-items-center justify-content-between">
+                                {{navHeader}}
+                                <button class="btn btn-outline-dark text-light p-0 mt-2 me-2 z-200 border-0" type="button" data-bs-toggle="collapse" data-bs-target=".menu-collapse" aria-controls=".menu-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                                    <h1 class="mx-1 my-0"><i class="bi bi-list"></i></h1>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row m-0">
+                        <div class="col position-absolute w-100 p-0 m-0">
+                            <div class="collapse collapse-horizontal menu-collapse float-start" id="hiddenMenu">
+                                {{navItems}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-xl-2 _col-xxl-1 d-none d-lg-block pe-0 h-auto menu-bg">
+                    <div class="row">
+                        <div class="col">
+                            {{navHeader}}
+                        </div>
+                    </div>
+                    <div class="row h-auto">
+                        <div class="col">
+                            {{navItems}}
+                        </div>
+                    </div>
+                </div>
+                <div class="collapse menu-collapse z-100 position-absolute top-0 start-0 w-100 h-100 m-0 p-0" id="menuBlur"></div>
+                <div class="col-12 col-lg-9 col-xl-10 _col-xxl-11 ps-lg-0 pt-1">
+                    <div class="container-xl">
+                        <div class="d-none">
+                            <div class="d-sm-none">xs</div>
+                            <div class="d-none d-sm-block d-md-none">sm</div>
+                            <div class="d-none d-md-block d-lg-none">md</div>
+                            <div class="d-none d-lg-block d-xl-none">lg</div>
+                            <div class="d-none d-xl-block d-xxl-none">xl</div>
+                            <div class="d-none d-xxl-block">xxl</div>
+                        </div>
+                        {% block content %}{% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.34.2/ace.js" integrity="sha512-WdJDvPkK4mLIW1kpkWRd7dFtAF6Z0xnfD3XbfrNsK2/f36vMNGt/44iqYQuliJZwCFw32CrxDRh2hpM2TJS1Ew==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+        <script src="{{url_for('static', filename='run/src/ace.js')}}"></script>
+        <script src="{{url_for('static', filename='scripts.js')}}"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

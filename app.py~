@@ -1,0 +1,28 @@
+
+from flask import Flask, render_template
+
+app = Flask(__name__)
+
+downloadCount = 0
+
+with open("veryProfessionalDatastore.txt", "r") as f:
+    try:
+        downloadCount = int(f.read().strip())
+    except ValueError:
+        pass
+
+@app.route("/")
+def home():
+    return "<h1>Lang3 Docs</h1>"
+
+@app.route("/download")
+def download():
+    return render_template("download.html", downloadCount = downloadCount)
+
+@app.route("/files/<fileName>")
+def unsecureFile(fileName):
+    global downloadCount
+    downloadCount += 1
+    with open("veryProfessionalDatastore.txt", "w") as f:
+        f.write(str(downloadCount))
+    return f"<h1>{fileName} will be here</h1>"

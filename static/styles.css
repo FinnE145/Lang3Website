@@ -1,0 +1,125 @@
+/*
+xs   0px     watch
+sm   300px   phone
+md   600px   tablet
+lg   1100px  laptop
+xl   1400px  desktop
+xxl  2000px  wide desktop
+*/
+
+/*---------- Utils ----------*/
+
+:root {
+    --menu-blur-transition-time: 0.5s;
+    --font-family-mono: 'Red Hat Mono';
+    --font-family-sans-serif: '';
+}
+
+.h-0 {
+    height: 0 !important;
+}
+
+.mh-v {
+    min-height: 100vh;
+}
+
+.z-100 {
+    z-index: 100 !important;
+}
+
+.z-200 {
+    z-index: 200 !important;
+}
+
+.z-300 {
+    z-index: 300 !important;
+}
+
+.fw-xlight {
+    font-weight: 200 !important;
+}
+
+.ff-mono {
+    font-family: var(--font-family-mono), monospace !important;
+}
+
+.ff-sans {
+    _font-family: var(--font-family-sans-serif), sans-serif !important;
+}
+
+/*---------- Main ----------*/
+
+
+/*---------- Progess Bar ----------*/
+
+.progress-container {
+    height: 0.25rem;
+    z-index: 1000;
+}
+
+#progress {
+    float: left;
+    width: 0%;
+    transition: width 1s;
+}
+
+/* ---------- Menu ---------- */
+
+.menu-icon {
+    transform: translate(0, -0.13rem);
+}
+
+.docs-btn {
+    --bs-icon-link-transform: translate(0, 0);
+}
+
+.menu-bg {
+    transition: background-color var(--menu-blur-transition-time);
+    background-color: #161616;
+}
+
+.menu-bg.blur {
+    background-color: #0000;
+    z-index: 400;
+}
+
+.menu-bg-grad {
+    background: -moz-linear-gradient(90deg, #0006 80%, #0000 100%);
+    background: -webkit-linear-gradient(90deg, #0006 80%, #0000 100%);
+    background: linear-gradient(90deg, #0006 80%, #0000 100%);
+    background-color: inherit;
+}
+
+#logo {
+    height: 2.25rem;
+}
+
+#menuBlur {
+    /* transition: filter var(--menu-blur-transition-time); */
+    transition: -webkit-backdrop-filter var(--menu-blur-transition-time), backdrop-filter var(--menu-blur-transition-time), background-color var(--menu-blur-transition-time);
+}
+
+#menuBlur:not(.blur) {
+    /* filter: blur(0px) brightness(100%); */
+    -webkit-backdrop-filter: blur(0px);
+    backdrop-filter: blur(0px);
+    background-color: #0000;
+}
+
+#menuBlur.blur {
+    /* filter: blur(20px) brightness(50%); */
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    background-color: #0006;
+}
+
+/*---------- Run ----------*/
+
+#editor {
+    height: 400px;
+}
+
+#output {
+    transition: all 0.5s;
+    white-space: pre-wrap;
+}
