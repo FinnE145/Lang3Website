@@ -108,7 +108,7 @@ def runJob():
                 return {"eCode": 1, "body": errStr.format(f"Compilation failed with compiler return code {job.result[2]}\n{job.result[0]}\n{job.result[1]}\n")}
             return {"eCode": 0, "body": job.result[0]}
         elif jobStatus == "queued":
-            return {"eCode": -1, "body": "Waiting to complile on our servers"}
+            return {"eCode": -1, "body": "Waiting to complie on our servers"}
         elif jobStatus == "started":
             return {"eCode": -2, "body": "Compiling code"}
         elif jobStatus == "failed":
