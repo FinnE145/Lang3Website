@@ -29,12 +29,6 @@ docsPages = list(zip(validDocs, ["".join([doc[0].upper()] + [f" {l}" if l in asc
 
 validFiles = [f for f in os.listdir("static/files") if os.path.isfile(f"static/files/{f}")]
 
-with open("veryProfessionalDatastore.txt", "r") as f:
-    try:
-        downloadCount = int(f.read().strip())
-    except ValueError:
-        pass
-
 @app.route("/")
 def home():
     return render_template("index.html", docsPages = docsPages)
@@ -121,16 +115,6 @@ def runJob():
 @app.route("/contact")
 def contact():
     return render_template("contact.html", docsPages = docsPages)
-
-@app.route("/files/<fileName>")
-def file(fileName):
-    if fileName not in validFiles:
-        return abort(404)
-    global downloadCount
-    downloadCount += 1
-    with open("veryProfessionalDatastore.txt", "w") as f:
-        f.write(str(downloadCount))
-    return f"<h1>{fileName} will be here</h1>"
 
 if __name__ == "__main__":
     app.run(debug=True)
