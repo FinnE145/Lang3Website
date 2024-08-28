@@ -7,6 +7,6 @@ from subprocess import Popen, PIPE
 binary = "/home/finn/flask1/CompiledSource/Lang3Source"
 
 def runLang3(fp):
-    p = Popen([binary, fp], stdout=PIPE, stderr=PIPE)
+    p = Popen([binary, fp, "!d"], stdout=PIPE, stderr=PIPE)
     (out, err) = p.communicate()
     return out.decode('ascii','ignore'), err.decode('ascii','ignore'), p.returncode
