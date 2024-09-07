@@ -10,7 +10,7 @@ from codeRunner import runLang3
 from string import ascii_uppercase
 from flask import Flask, render_template, abort, request, flash, url_for
 
-#os.chdir("C:/Users/finne/OneDrive/Documents/0coding/Lang3/Lang3/Tools/Website")
+os.chdir("/home/finn/Lang3Website")
 
 errStr = "<span>{} Please try to run your code again, or <a href=\"/contact\">contact us</a> if the problem persists.</span>"
 
