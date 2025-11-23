@@ -167,3 +167,4 @@ cython_debug/
 *.pid
 old
 *.rdb
+/static/files/userCode/*
