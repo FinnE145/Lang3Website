@@ -10,15 +10,13 @@ from codeRunner import runLang3
 from string import ascii_uppercase
 from flask import Flask, render_template, abort, request, flash, url_for
 
-os.chdir("/home/finn/Lang3Website")
-
 errStr = "<span>{} Please try to run your code again, or <a href=\"/contact\">contact us</a> if the problem persists.</span>"
 
 queueName = "RunCode"
 jobQueue = Queue(queueName, connection=Redis(port=7777))
 
 app = Flask(__name__)
-app.secret_key = "idkSomeText4ndNumb3rs4nd$ym&0!$"
+app.secret_key = "idkSomeText4ndNumb3rs@nd$ym&0!$"
 app.config["MAX_CONTENT_LENGTH"] =  16 * 1024 * 1024 # 16mb
 
 downloadCount = 0
