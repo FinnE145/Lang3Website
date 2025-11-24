@@ -168,3 +168,4 @@ cython_debug/
 old
 *.rdb
 /static/files/userCode/*
+.hintrc
