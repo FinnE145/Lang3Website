@@ -24,6 +24,8 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+    volumes:
+      - userCode:/opt/Lang3Website/static/files/userCode
 
   l3w_worker:
     build:
@@ -40,3 +42,5 @@ services:
       - REDIS_PORT=6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+    volumes:
+      - userCode:/opt/Lang3Website/static/files/userCode
