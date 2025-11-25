@@ -100,7 +100,7 @@ def runJob():
         print(jobStatus)
         print(job.result)
         if jobStatus == "finished":
-            if not job.result[0] or job.result[1]:
+            if not job.result[0] or job.result[1] or job.result[2] != 0:
                 return {"eCode": 1, "body": errStr.format(f"Compilation failed with compiler return code {job.result[2]}\n{job.result[0]}\n{job.result[1]}\n")}
             return {"eCode": 0, "body": job.result[0]}
         elif jobStatus == "queued":
