@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 #TODO: implement cformat (code sxhl)
 #from iformat import cformat
 
-binary = "/CompiledSource/Lang3"
+binary = "./CompiledSource/Lang3"
 
 def runLang3(fp):
     p = Popen([binary, fp, "!d"], stdout=PIPE, stderr=PIPE)
