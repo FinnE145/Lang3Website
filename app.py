@@ -12,11 +12,15 @@ from flask import Flask, render_template, abort, request, flash, url_for
 
 errStr = "<span>{} Please try to run your code again, or <a href=\"/contact\">contact us</a> if the problem persists.</span>"
 
+redis_host = os.getenv('REDIS_HOST', 'localhost')
+redis_port = int(os.getenv('REDIS_PORT', 6379))
+redis_password = os.getenv('REDIS_PASSWORD', None)
+
 queueName = "RunCode"
-jobQueue = Queue(queueName, connection=Redis(host="172.17.0.1", password="ReDiSsEcReTpW"))
+jobQueue = Queue(queueName, connection=Redis(host=redis_host, port=redis_port, password=redis_password))
 
 app = Flask(__name__)
-app.secret_key = "idkSomeText4ndNumb3rs@nd$ym&0!$"
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
 app.config["MAX_CONTENT_LENGTH"] =  16 * 1024 * 1024 # 16mb
 
 downloadCount = 0
