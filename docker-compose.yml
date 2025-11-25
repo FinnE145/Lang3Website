@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   l3w_redis:
     image: redis:latest
