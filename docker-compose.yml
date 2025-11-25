@@ -44,3 +44,6 @@ services:
       - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
     volumes:
       - userCode:/opt/Lang3Website/static/files/userCode
+
+volumes:
+  userCode:
