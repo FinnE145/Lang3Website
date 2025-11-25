@@ -13,7 +13,7 @@ from flask import Flask, render_template, abort, request, flash, url_for
 errStr = "<span>{} Please try to run your code again, or <a href=\"/contact\">contact us</a> if the problem persists.</span>"
 
 queueName = "RunCode"
-jobQueue = Queue(queueName, connection=Redis(port=6379))
+jobQueue = Queue(queueName, connection=Redis(password="ReDiSsEcReTpW"))
 
 app = Flask(__name__)
 app.secret_key = "idkSomeText4ndNumb3rs@nd$ym&0!$"
