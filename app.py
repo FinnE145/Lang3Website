@@ -74,7 +74,7 @@ def runPost():
     if codeSent and fileSent:
         flash("Both code and a file were provided, so code was used", "warning")
     if codeSent:
-        fileName = f"./{url_for('static', filename='files/userCode/')}{dt.datetime.now().isoformat().replace('-', '').replace(':', '').replace('.', '')}.l3"
+        fileName = f".{url_for('static', filename='files/userCode/')}{dt.datetime.now().isoformat().replace('-', '').replace(':', '').replace('.', '')}.l3"
         with open(fileName, "w") as f:
             f.write(code)
     elif fileSent:
