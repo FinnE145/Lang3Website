@@ -44,11 +44,27 @@ This PR brings the complete Lang3 Website from dev to main, including:
    - Architecture documentation
    - Usage instructions
 
-## Note on PR Configuration
+## ⚠️ IMPORTANT: PR Configuration Required
 
-The existing PR #1 may need its base branch changed from `dev` to `main` via the GitHub web interface to properly represent this merge. Alternatively, a new PR can be created with:
+**ACTION NEEDED**: The existing PR #1 currently has its base set to `dev`, which means it only shows 1 file changed. To properly represent the merge of dev into main, you need to:
+
+### Option 1: Change PR Base (Recommended)
+1. Go to PR #1 on GitHub: https://github.com/FinnE145/Lang3Website/pull/1
+2. Click "Edit" next to the PR title
+3. Change the base branch from `dev` to `main`
+4. The PR will then show 470+ files changed (all the changes from dev)
+
+### Option 2: Create New PR
+Alternatively, create a new PR with:
 - **Base**: `main`
-- **Head**: `dev` or this branch
+- **Head**: `copilot/start-pr-from-dev-to-main`
+- This will show all 470+ file changes from dev being merged into main
+
+### Current Branch State
+This branch (`copilot/start-pr-from-dev-to-main`) contains:
+- All changes from `main` (base)
+- All changes from `dev` (merged in)
+- Total: 473 files changed compared to `main`
 
 ## Merge Conflict Resolution
 
