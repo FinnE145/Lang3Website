@@ -1,0 +1,36 @@
+{% extends 'layout.html' %}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        (function attachDocsAceHighlight() {
+            function highlightDocs() {
+                if (!window.ace || !ace.require) {
+                    return;
+                }
+                const staticHighlight = ace.require('ace/ext/static_highlight');
+                if (!staticHighlight || typeof staticHighlight.highlight !== 'function') {
+                    return;
+                }
+                document.querySelectorAll('pre > code').forEach((codeElm) => {
+                    if (codeElm.dataset.aceApplied === 'true') {
+                        return;
+                    }
+                    staticHighlight.highlight(codeElm, {
+                        mode: 'ace/mode/plain_text',
+                        showGutter: false,
+                        trim: true
+                    }, () => {
+                        codeElm.dataset.aceApplied = 'true';
+                    });
+                });
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', highlightDocs, { once: true });
+            } else {
+                highlightDocs();
+            }
+        })();
+    </script>
+{% endblock %}

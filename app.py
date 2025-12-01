@@ -50,7 +50,7 @@ def docs(docPage):
         iprint(f"Generating new HTML file for docs/{docPage}.md")
         with open(f"templates/docs/{docPage}.html", "w") as htmlFile:
             with open(f"docs/{docPage}.md", "r") as mdFile:
-                htmlFile.write("{% extends 'layout.html' %}\n{% block content %}\n")
+                htmlFile.write("{% extends 'docs_base.html' %}\n{% block content %}\n")
                 # Enable fenced code blocks and tables so docs render like GitHub Markdown
                 htmlFile.write(
                     markdown.markdown(

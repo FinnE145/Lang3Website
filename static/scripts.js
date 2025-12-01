@@ -81,43 +81,5 @@ const classWatcher = new ClassWatcher(menu, 'collapsing', () => {
     menuHeader.classList.toggle('blur');
 });
 
-function initDocsAceHighlight() {
-    if (typeof window === 'undefined' || typeof window.location === 'undefined') {
-        return;
-    }
 
-    if (!window.location.pathname.toLowerCase().startsWith('/docs/')) {
-        return;
-    }
-
-    if (typeof ace === 'undefined' || !ace.require) {
-        return;
-    }
-
-    const staticHighlight = ace.require('ace/ext/static_highlight');
-    if (!staticHighlight || typeof staticHighlight.highlight !== 'function') {
-        return;
-    }
-
-    document.querySelectorAll('pre > code').forEach((codeElm) => {
-        if (codeElm.dataset.aceApplied === 'true') {
-            return;
-        }
-
-        staticHighlight.highlight(codeElm, {
-            mode: 'ace/mode/plain_text',
-            showGutter: false,
-            startLineNumber: 1,
-            trim: true
-        }, () => {
-            codeElm.dataset.aceApplied = 'true';
-        });
-    });
-}
-
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initDocsAceHighlight);
-} else {
-    initDocsAceHighlight();
-}
 
