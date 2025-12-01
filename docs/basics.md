@@ -27,7 +27,7 @@ Block comments, or comments that can be multiple lines long and must be explicit
 
 Examples:
 
-```lang3
+```
 io.out("This is some valid code that will run")
 
 # This is a comment, it does nothing
@@ -59,7 +59,7 @@ Like many symbols in Lang3, special symbols in comments can be escaped with a ba
 
 Examples:
 
-```lang3
+```
 1 + 2       #> 3; Until the semicolon, this comment showed the output of this line
 
 int x = 1   # This line demonstrates code in comments by assigning the value :1; to the variable :x;, with type :int;
@@ -73,7 +73,7 @@ int x = 1   # This line demonstrates code in comments by assigning the value :1;
 
 Values can be shown in the console with the `io.out` function. This means that `out` is a method of the `io` module (learn more about modules at the top of `Modules` and learn about the `io` module under `Modules > IO`).
 
-```lang3
+```
 io.out("Hello world")   # Print :"Hello world"; to the console
 
 io.out(1)               # Print :1; to the console
@@ -81,7 +81,7 @@ io.out(1)               # Print :1; to the console
 
 By default, outputting multiple objects will show them separated by spaces. You can change this by explicitly passing a string to the `sep` parameter.
 
-```lang3
+```
 io.out(1, 2, 3)             #> 1, 2, 3
 
 io.out(1, 2, 3, sep="|")    #> 1|2|3
@@ -89,7 +89,7 @@ io.out(1, 2, 3, sep="|")    #> 1|2|3
 
 By default, outputting ends with a new line. You can change this by explicitly passing a string to the `end` parameter
 
-```lang3
+```
 io.out(1, 2, 3)
 
 io.out(4, 5, 6)
@@ -131,7 +131,7 @@ Lang3 may be able to infer the type if the variable is assigned in the same line
 
 Examples:
 
-```lang3
+```
 int w = 1       # A variable is declared and assigned with a type, name, and value
 
 
@@ -159,7 +159,7 @@ Using a variable is as easy as writing its name in an expression.
 
 Examples:
 
-```lang3
+```
 int a = 1
 
 int b = 2
@@ -185,7 +185,7 @@ Code blocks are objects that hold other code. They are enclosed by colons `:;`.
 
 Examples:
 
-```lang3
+```
 code c1 = :io.out("This is in a code block");
 
 
@@ -227,7 +227,7 @@ To call a code block/function, add parentheses `()` after the code block or a `c
 
 Examples:
 
-```lang3
+```
 : io.out("This code block is being run directly") ;()     #> This code block is being run directly
 
 #> This code block is being run directly
@@ -265,7 +265,7 @@ The desired value of parameter variables, called arguments, must be passed insid
 
 Examples:
 
-```lang3
+```
 code printAValue = [x]:     # This parameter has no type, and will infer from what is passed
 
     # This code block outputs the value of x
@@ -339,7 +339,7 @@ While classes as a distinct concept do not exist in lang3, they can be created w
 
 ##### Example in Java:
 
-```java
+```
 
 class A {                   // Declare the class
 
@@ -373,7 +373,7 @@ a.addTwo();                 // Call a method on that instance
 
 ##### Equivalent in Lang3:
 
-```lang3
+```
 A = [n]:                    # Create the variable A and assign a function code block to it as its constructor
 
     inst $                    # Use the :inst; keyword to duplicate the current object...
@@ -407,7 +407,7 @@ a.addTwo()
 
 >   At `POINT 1`, these are the types of A as a value and as an object
 
-```lang3
+```
 type(A)                     #: code ; A code block is assigned to :A;
 
 type($A)                    #: code ; The object infers its type from its value when not otherwise stated
@@ -415,13 +415,13 @@ type($A)                    #: code ; The object infers its type from its value 
 
 >   At `POINT 2`, these are those same types:
 
-```lang3
+```
 type(A)                     #: code ; The code block value is unchanged
 
 type($A)                    #: _A   ; The object A is now different from the code block type, and became its own type
 ```
 
-```lang3
+```
 code add = :
 
     io.out(x + y)
@@ -449,7 +449,7 @@ An unlimited number of arguments can be passed, and accessed as a sequence insid
 
 Examples:
 
-```lang3
+```
 code add = [-> num[] args]:
 
     num sum = 0
@@ -489,7 +489,7 @@ In Lang3, functions are overloaded by creating a `sequence` of code blocks. When
 
 > Note that if it were **not** a sequence of functions, a `TypeError` would be called if one or more of the arguments are of the wrong type, but the right number were passed. When a function is overloaded (a sequence of functions), arguments of the wrong type that do not match any parameters will raise an `ArgumentError`.
 
-```lang3
+```
 code[] add = [num a, num b]:
 
     io.out("The sum of {a} and {b} is {a + b}")
@@ -529,7 +529,7 @@ Overloads should differ in type, number, or order of differently-typed arguments
 
 A particular function within a code block sequence can be called via indexing, like any sequence.
 
-```lang3
+```
 code[] add = [num a, num b]:
 
     io.out("The sum of {a} and {b} is {a + b}")
