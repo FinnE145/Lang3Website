@@ -44,8 +44,8 @@ def docs(docPage):
     if docPage not in validDocs:
         return abort(404)
 
-    if os.path.exists(f"templates/{docPage}.html") and not ALWAYS_REGENERATE_HTML:
-        return render_template(f"{docPage}.html")
+    if os.path.exists(f"templates/docs/{docPage}.html") and not ALWAYS_REGENERATE_HTML:
+        return render_template(f"docs/{docPage}.html")
     elif os.path.exists(f"docs/{docPage}.md"):
         iprint(f"Generating new HTML file for docs/{docPage}.md")
         with open(f"templates/docs/{docPage}.html", "w") as htmlFile:
