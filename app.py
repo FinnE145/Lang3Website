@@ -51,7 +51,13 @@ def docs(docPage):
         with open(f"templates/docs/{docPage}.html", "w") as htmlFile:
             with open(f"docs/{docPage}.md", "r") as mdFile:
                 htmlFile.write("{% extends 'layout.html' %}\n{% block content %}\n")
-                htmlFile.write(markdown.markdown(mdFile.read()))
+                # Enable fenced code blocks and tables so docs render like GitHub Markdown
+                htmlFile.write(
+                    markdown.markdown(
+                        mdFile.read(),
+                        extensions=["fenced_code", "tables"]
+                    )
+                )
                 htmlFile.write("\n{% endblock %}")
         return render_template(f"docs/{docPage}.html", docsPages = docsPages)
     else:
