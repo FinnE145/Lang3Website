@@ -10,6 +10,7 @@
                 }
                 const staticHighlight = ace.require('ace/ext/static_highlight');
                 if (!staticHighlight || typeof staticHighlight.highlight !== 'function') {
+                    console.log("ACE static highlight extension not found");
                     return;
                 }
                 document.querySelectorAll('pre > code').forEach((codeElm) => {
