@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <h1>Download</h1>
+    <p>This is a very early WIP — there is no official downloadable executable yet. The project is a .NET application; to obtain a runnable artifact you need to build or publish it from the source.</p>
+
+    <p>High-level pointers:</p>
+    <ul>
+        <li>Obtain the repository (clone or download the ZIP).</li>
+        <li>Open the solution in a .NET-aware IDE or use the .NET SDK tooling to restore dependencies and produce a runtime/publish artifact.</li>
+    </ul>
+
+    <p class="small fst-italic text-muted">Psst — There is a prebuilt binary for Linux in <a href="https://github.com/FinnE145/Lang3Website/tree/main/CompiledSource" target="_blank" rel="noopener noreferrer">this GitHub folder</a>. (It's the one that runs your code submitted on this website!) However, no guarantees that it's up-to-date or even works at all. Your best bet is probably building it from the repo, but if you happen to want a ready-to-go Linux binary, check that out.</p>
+
+    <a class="btn btn-primary" href="https://github.com/FinnE145/Lang3" target="_blank" rel="noopener noreferrer" role="button">View project on GitHub</a>
+{% endblock %}

@@ -1,0 +1,49 @@
+services:
+  l3w_redis:
+    image: redis:latest
+    container_name: l3w_redis
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    ports:
+      - "6379:6379"
+
+  l3w_web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: l3w_web
+    image: l3w_web
+    ports:
+      - "45601:5000"
+    depends_on:
+      - l3w_redis
+    restart: unless-stopped
+    command: >
+      gunicorn --bind 0.0.0.0:5000 --access-logfile - --error-logfile - wsgi:app
+    environment:
+      - REDIS_HOST=l3w_redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+    volumes:
+      - userCode:/opt/Lang3Website/static/files/userCode
+
+  l3w_worker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: l3w_worker
+    image: l3w_worker
+    depends_on:
+      - l3w_redis
+    restart: unless-stopped
+    command: rq worker RunCode --url redis://:${REDIS_PASSWORD}@l3w_redis:6379/0
+    environment:
+      - REDIS_HOST=l3w_redis
+      - REDIS_PORT=6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - FLASK_SECRET_KEY=${FLASK_SECRET_KEY}
+    volumes:
+      - userCode:/opt/Lang3Website/static/files/userCode
+
+volumes:
+  userCode:
