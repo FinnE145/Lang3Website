@@ -1,0 +1,128 @@
+ALWAYS_REGENERATE_HTML = True
+
+import os
+import markdown
+import datetime as dt
+from rq import Queue
+from redis import Redis
+from iformat import iprint
+from codeRunner import runLang3
+from string import ascii_uppercase
+from flask import Flask, render_template, abort, request, flash, url_for
+
+errStr = "<span>{} Please try to run your code again, or <a href=\"/contact\">contact us</a> if the problem persists.</span>"
+
+redis_host = os.getenv('REDIS_HOST', 'localhost')
+redis_port = int(os.getenv('REDIS_PORT', 6379))
+redis_password = os.getenv('REDIS_PASSWORD', None)
+
+queueName = "RunCode"
+jobQueue = Queue(queueName, connection=Redis(host=redis_host, port=redis_port, password=redis_password))
+
+app = Flask(__name__)
+app.secret_key = os.getenv('FLASK_SECRET_KEY')
+app.config["MAX_CONTENT_LENGTH"] =  16 * 1024 * 1024 # 16mb
+
+downloadCount = 0
+
+validDocs = [f.split(".")[0] for f in os.listdir("docs") if f.endswith(".md")]
+docsPages = list(zip(validDocs, ["".join([doc[0].upper()] + [f" {l}" if l in ascii_uppercase else l for l in doc[1:]]) for doc in validDocs]))
+#iprint(docsPages)
+
+validFiles = [f for f in os.listdir("static/files") if os.path.isfile(f"static/files/{f}")]
+
+@app.route("/")
+def home():
+    return render_template("index.html", docsPages = docsPages)
+
+@app.route("/download")
+def download():
+    return render_template("download.html", docsPages = docsPages, downloadCount = downloadCount)
+
+@app.route("/docs/<docPage>")
+def docs(docPage):
+    if docPage not in validDocs:
+        return abort(404)
+
+    if os.path.exists(f"templates/docs/{docPage}.html") and not ALWAYS_REGENERATE_HTML:
+        return render_template(f"docs/{docPage}.html")
+    elif os.path.exists(f"docs/{docPage}.md"):
+        iprint(f"Generating new HTML file for docs/{docPage}.md")
+        with open(f"templates/docs/{docPage}.html", "w") as htmlFile:
+            with open(f"docs/{docPage}.md", "r") as mdFile:
+                htmlFile.write("{% extends 'docs_base.html' %}\n{% block content %}\n")
+                # Enable fenced code blocks and tables so docs render like GitHub Markdown
+                htmlFile.write(
+                    markdown.markdown(
+                        mdFile.read(),
+                        extensions=["fenced_code", "tables"]
+                    )
+                )
+                htmlFile.write("\n{% endblock %}")
+        return render_template(f"docs/{docPage}.html", docsPages = docsPages)
+    else:
+        return abort(404)
+
+@app.route("/run")
+def run():
+    return render_template("run.html", docsPages = docsPages, errStr = errStr.format("There was an error."))
+
+@app.route("/run", methods=["POST"])
+def runPost():
+    code = request.form.get("code")
+    print(code)
+    file = request.files.get("file")
+    codeSent = code is not None and code.strip() != ""
+    print(f"codeSent: {codeSent}")
+    fileSent = file is not None and file.filename != ""
+    print(f"fileSent: {fileSent}")
+    #print(file)
+    if codeSent and fileSent:
+        flash("Both code and a file were provided, so code was used", "warning")
+    if codeSent:
+        fileName = f".{url_for('static', filename='files/userCode/')}{dt.datetime.now().isoformat().replace('-', '').replace(':', '').replace('.', '')}.l3"
+        with open(fileName, "w") as f:
+            f.write(code)
+    elif fileSent:
+        fileName = f"./{url_for('static', filename='files/userCode/')}{dt.datetime.now().isoformat().replace('-', '').replace(':', '').replace('.', '')}.l3"
+        file.save(fileName)
+        file.stream.seek(0)
+        code = file.stream.read().decode("utf-8")
+        file.stream.close()
+    else:
+        flash("No code or file provided", "danger")
+        return render_template("run.html", docsPages = docsPages)
+    job = jobQueue.enqueue_call(runLang3, [fileName])   # add timeout=30 (it doesnt seem to work), or ttl=30 to limit the time that the task lasts to 30 seconds
+    return render_template("run.html", docsPages = docsPages, input = code, outputJobId = f"?jid={job.id}", errStr = errStr.format("There was an error."))
+
+@app.route("/run/getJob")
+def runJob():
+    jobId = request.args.get("jid")
+    if jobId is not None:
+        job = jobQueue.fetch_job(jobId)
+        if job is None:
+            return {"eCode": 1, "body": errStr.format("Your job ID is invalid or has expired.")}
+        jobStatus = job.get_status()
+        print(jobStatus)
+        print(job.result)
+        if jobStatus == "finished":
+            if not job.result[0] or job.result[1] or job.result[2] != 0:
+                return {"eCode": 1, "body": errStr.format(f"Compilation failed with compiler return code {job.result[2]}\n{job.result[0]}\n{job.result[1]}\n")}
+            return {"eCode": 0, "body": job.result[0]}
+        elif jobStatus == "queued":
+            return {"eCode": -1, "body": "Waiting to complie on our servers"}
+        elif jobStatus == "started":
+            return {"eCode": -2, "body": "Compiling code"}
+        elif jobStatus == "failed":
+            return {"eCode": 1, "body": errStr.format("Job failed with no further information.") if job.result is None else errStr.format(f"Job failed with compiler return code {job.result[2]}\n{job.result[0]}\n{job.result[1]}\n")}
+        else:
+            return {"eCode": 2, "body": errStr.format(f"Unexpected status of {jobStatus}")}
+    else:
+        return {"eCode": 0, "body": "Output will appear here"}
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html", docsPages = docsPages)
+
+if __name__ == "__main__":
+    app.run(debug=True)

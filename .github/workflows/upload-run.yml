@@ -1,0 +1,49 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build, Test, Deploy
+    runs-on: ubuntu-latest
+    environment:
+      name: PROD
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Validate docker-compose file
+        run: docker compose -f docker-compose.yml config -q
+
+      - name: Build application images
+        run: docker compose -f docker-compose.yml build --pull
+
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ vars.SSH_HOST }}
+          username: ${{ vars.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            set -euo pipefail
+
+            cd "${{ vars.APP_PATH }}"
+            git fetch --all --prune
+            git checkout "${{ vars.BRANCH }}"
+            git pull --ff-only origin "${{ vars.BRANCH }}"
+
+            compose_cmd='${{ vars.DOCKER_COMPOSE_CMD }}'
+
+            eval "$compose_cmd down --remove-orphans"
+            eval "$compose_cmd build"
+            eval "$compose_cmd up -d --remove-orphans"

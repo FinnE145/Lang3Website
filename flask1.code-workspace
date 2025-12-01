@@ -1,0 +1,19 @@
+{
+    "folders": [
+      {
+        "path": "/home/finn/flask1/"
+      },
+      {
+        "path": "/home/finn/Lang3"
+      }
+    ],
+    "settings": {
+      "search.exclude": {},
+      "files.exclude": {
+        "**/*.*~": true,
+        "**/__pycache__": true,
+      },
+      "dotnet.preferVisualStudioCodeFileSystemWatcher": true,
+    }
+  }
+  
