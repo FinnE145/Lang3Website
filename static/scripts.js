@@ -105,6 +105,7 @@ function initDocsAceHighlight() {
         }
 
         staticHighlight.highlight(codeElm, {
+            mode: 'ace/mode/plain_text',
             showGutter: false,
             startLineNumber: 1,
             trim: true
