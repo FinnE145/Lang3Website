@@ -5,16 +5,11 @@ The `Basics` section describes basic usage and syntax of many commonly used aspe
 
 
 | Basics Section (`/Docs/Basics/*`) | Docs Section (`/Docs/*`)  |
-
-|-----------------------------------|---------------------------|
-
-| `Comments`                        | No Equivalent             |
-
-| `Output`                          | `Modules > IO > Out`      |
-
-| `Variables`                       | `Objects`                 |
-
-| `Code Blocks and Functions`       | `Data Types > Code Block` |
+|----------------------------------|---------------------------|
+| `Comments`                       | No Equivalent             |
+| `Output`                         | `Modules > IO > Out`      |
+| `Variables`                      | `Objects`                 |
+| `Code Blocks and Functions`      | `Data Types > Code Block` |
 
 ## Comments
 
@@ -48,7 +43,7 @@ It must be ended with two or more hashes ##
 io.out(1 + 2 ## Note that block comments can be put in the middle of functional code ##+ 3)
 ```
 
-Lang3 comments have various stylistic options that do nothing, but can make code more clear and are reccomended for use. They include:
+Lang3 comments have various stylistic options that do nothing, but can make code clearer and are recommended for use. They include:
 
 - `>` after a comment hash denotes that the comment is expected output, up until a semicolon or another hash
 
@@ -84,7 +79,7 @@ io.out("Hello world")   # Print :"Hello world"; to the console
 io.out(1)               # Print :1; to the console
 ```
 
-By default, outputting multiple objects will show them seperated by spaces. You can change this by explicitly passing a string to the `sep` parameter.
+By default, outputting multiple objects will show them separated by spaces. You can change this by explicitly passing a string to the `sep` parameter.
 
 ```lang3
 io.out(1, 2, 3)             #> 1, 2, 3
@@ -158,7 +153,7 @@ type(y)         #: int
 z = y           # This variable also does not have a type explicitly specified, but can infer from y's type
 ```
 
-Using a variable is as easy as writing it's name in an expression.
+Using a variable is as easy as writing its name in an expression.
 
 
 
@@ -226,7 +221,7 @@ Functions are a concept in many languages, where code can be assigned a name and
 
 
 
-To call a code block/function, add parenteses `()` after the code block or a `code` type variable, with optional argument values inside.
+To call a code block/function, add parentheses `()` after the code block or a `code` type variable, with optional argument values inside.
 
 
 
@@ -241,7 +236,7 @@ Examples:
 
 code f = :
 
-    io.out("This is a function").
+    io.out("This is a function")
 
     io.out("It will not be run immediately, but can be called later")
 
@@ -338,8 +333,6 @@ If parameters are not passed before the code block is called, an `UndefinedError
 
 
 
-Examples:
-
 ### Creating Traditional Classes
 
 While classes as a distinct concept do not exist in lang3, they can be created with full functionality.
@@ -410,7 +403,7 @@ a.addTwo()
 
 
 
-> Also note how the object's type changes:\
+> Also note how the object's type changes:
 
 >   At `POINT 1`, these are the types of A as a value and as an object
 
@@ -425,7 +418,7 @@ type($A)                    #: code ; The object infers its type from its value 
 ```lang3
 type(A)                     #: code ; The code block value is unchanged
 
-type($A)                    #: _A   ; The object A is now different from the code block type, and became it's own type
+type($A)                    #: _A   ; The object A is now different from the code block type, and became its own type
 ```
 
 ```lang3
@@ -505,7 +498,7 @@ code[] add = [num a, num b]:
 
 [str a, str b]:
 
-    io.out("When you concatonate {a} and {b}, you get {a + b}")
+    io.out("When you concatenate {a} and {b}, you get {a + b}")
 
 ;,
 
@@ -519,7 +512,7 @@ code[] add = [num a, num b]:
 
 add(1, 2)                   #> The sum of 1 and 2 is 3
 
-add("apple", "banana")      #> When you concatonate apple and banana, you get applebanana
+add("apple", "banana")      #> When you concatenate apple and banana, you get applebanana
 
 add([1, 2], [3, 4])         #> When you combine [1, 2] and [3, 4], you get [1, 2, 3, 4]
 

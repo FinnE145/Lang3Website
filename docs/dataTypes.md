@@ -18,7 +18,7 @@ num[]   # An unlimited-length sequence of :num; objects (for more information on
 num[3]  # A sequence of up to 3 :num; objects
 ```
 
-A sequence literal consists of multiple values seperated by commas. If enclosed in square brackets, it becomes a `list`, a subtype of `seq`.
+A sequence literal consists of multiple values separated by commas. If enclosed in square brackets, it becomes a `list`, a subtype of `seq`.
 
 
 
@@ -48,7 +48,7 @@ The `num` datatype represents both integer/whole numbers and decimals. It can be
 
 > - `?str mode` [*OPTIONAL*]: The rounding mode to use. Possible values are:
 
->   - `="nearest"|"n"` [*DEFAULT*]: When the number is halfway between two multiples, round up if it's even and down if it's odd
+>   - `"nearest"|"n"` [*DEFAULT*]: When the number is halfway between two multiples, round up if it's even and down if it's odd
 
 >   - `"nearest-up"|"nu"`: If the number is exactly halfway between two multiples, round up
 

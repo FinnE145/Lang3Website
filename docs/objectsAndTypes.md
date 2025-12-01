@@ -2,7 +2,7 @@
 
 ## Modifying Types
 
-To modify an variable's type, change it's properties. This will not affect new objects of the original type.
+To modify a variable's type, change its properties. This will not affect new objects of the original type.
 
 
 
@@ -46,7 +46,7 @@ v3.prop2                #> def; This new variable now has the new property, as t
 
 ## Creating Types/Classes
 
-As seen above, to create a class or type (exclusively called a type in Lang3), you must create a variable and modify it's properties. You can then use it's type (as given by the `type()` function) as a type like any other.
+As seen above, to create a class or type (exclusively called a type in Lang3), you must create a variable and modify its properties. You can then use its type (as given by the `type()` function) as a type like any other.
 
 ```lang3
 obj newVar =            # Declare a variable of the base :obj; type with no value
@@ -154,7 +154,7 @@ newType = type(target)  # Assign the new type to a variable
 target t = 1            # Create an object of the new type
 ```
 
-If an variable of an existing type with it's children unchanged is used as a type, the target variable uses the original existing type:
+If a variable of an existing type with its children unchanged is used as a type, the target variable uses the original existing type:
 
 ```lang3
 int newType =
@@ -246,7 +246,7 @@ locked A =                      # :A; can be accessed from anywhere, but propert
 hidden locked A =               # :A; can only be accessed from itself or its own children, and properties and methods cannot be added or deleted
 ```
 
-> Note that `private` and `hidden` are similar in that they have the same effect on a variable's value or a variables's object reference respectively, and same goes for `readonly` and `locked`
+> Note that `private` and `hidden` are similar in that they have the same effect on a variable's value or a variable's object reference respectively, and same goes for `readonly` and `locked`
 
 ##### Polymorphism:
 
