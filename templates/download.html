@@ -1,6 +1,15 @@
 {% extends 'layout.html' %}
 {% block content %}
     <h1>Download</h1>
-    <p>The download page isn't ready yet. You can view the current project on GitHub:</p>
+    <p>This is a very early WIP — there is no official downloadable executable yet. The project is a .NET application; to obtain a runnable artifact you need to build or publish it from the source.</p>
+
+    <p>High-level pointers:</p>
+    <ul>
+        <li>Obtain the repository (clone or download the ZIP).</li>
+        <li>Open the solution in a .NET-aware IDE or use the .NET SDK tooling to restore dependencies and produce a runtime/publish artifact.</li>
+    </ul>
+
+    <p>If you prefer not to build locally, check the project's Releases page for prebuilt binaries.</p>
+
     <a class="btn btn-primary" href="https://github.com/FinnE145/Lang3" target="_blank" rel="noopener noreferrer" role="button">View project on GitHub</a>
 {% endblock %}
