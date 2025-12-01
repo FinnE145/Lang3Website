@@ -1,6 +1,67 @@
 {% extends 'layout.html' %}
 {% block content %}
-    <h1>Lang3</h1>
+    <section class="py-4">
+        <p class="text-uppercase text-secondary fw-semibold mb-1">Lang3 Website</p>
+        <h1 class="display-5 fw-semibold">Experiment with the Lang3 language online</h1>
+        <p class="lead text-body-secondary">
+            Lang3 is a lightweight, statically typed, object-oriented scripting language focused on flexible object layouts
+            and quality-of-life syntax. Read about the language on
+            <a href="https://github.com/FinnE145/Lang3" target="_blank" rel="noopener">GitHub</a>, then explore it here.
+        </p>
+        <div class="d-flex flex-column flex-sm-row gap-2">
+            <a class="btn btn-primary btn-lg" href="/run">Run Lang3 in the browser</a>
+            <a class="btn btn-outline-secondary btn-lg" href="/docs/test">Browse docs</a>
+            <a class="btn btn-outline-dark btn-lg" href="/download">Download options</a>
+        </div>
+    </section>
 
-    This website is a WIP! Check out the <a href="/run">run</a> page though, it can lex and parse basic math.
+    <section class="row g-4 py-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4">Interactive runner</h2>
+                    <p>
+                        The <strong>Run</strong> page features an Ace editor and file upload so you can send
+                        Lang3 snippets to our servers. Jobs are executed via Redis + RQ and stream lexer/parser
+                        output back to your browser with friendly status updates.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4">Living documentation</h2>
+                    <p>
+                        Markdown files in the repo render automatically under <code>/docs/&lt;page&gt;</code> using
+                        Bootstrap templates. Expect syntax notes, language guides, and examples as Lang3 evolves.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h2 class="h4">Deploy-ready stack</h2>
+                    <p>
+                        This site ships with Dockerized web, worker, and Redis services plus a GitHub Actions
+                        pipeline for automatic builds and SSH deployments, keeping the public playground up to date.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-4">
+        <div class="card border-0 bg-body-secondary">
+            <div class="card-body">
+                <h2 class="h4">Get involved</h2>
+                <p class="mb-0">
+                    Curious about the compiler or core language design? Contribute ideas and code at the
+                    <a href="https://github.com/FinnE145/Lang3" target="_blank" rel="noopener">main Lang3 repository</a>.
+                    Have feedback on the website experience? Open an issue here or reach out via the contact page.
+                </p>
+            </div>
+        </div>
+    </section>
 {% endblock %}
