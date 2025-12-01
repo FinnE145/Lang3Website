@@ -123,3 +123,28 @@ xxl  2000px  wide desktop
     transition: all 0.5s;
     white-space: pre-wrap;
 }
+
+/* ---------- Docs code highlighting ---------- */
+
+pre code[data-highlighted="true"] {
+    background-color: transparent;
+    color: inherit;
+    padding: 0;
+    display: block;
+}
+
+pre.ace-highlighted-pre {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+pre.ace-highlighted-pre .ace_static_highlight {
+    border-radius: 0.5rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+}
+
+pre.ace-highlighted-pre .ace_static_highlight .ace_line {
+    padding-right: 1rem;
+}
