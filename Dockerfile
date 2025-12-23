@@ -1,6 +1,6 @@
 FROM python:3.12-slim
 
-WORKDIR /opt/Lang3Website
+WORKDIR ~/Lang3Website
 
 RUN apt-get update && apt-get install -y libicu-dev && rm -rf /var/lib/apt/lists/*
 
